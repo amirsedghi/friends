@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Friends</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  </head>
+  <body>
+    <a href="/">Logout</a>
+    <h1>Hello {{user.alias}}</h1>
+    <h2>Here is the list of your friends</h2>
+    {% if not friends %}
+    <p>
+      No friends yet...
+    </p>
+    {% else %}
+    <table>
+      <tr>
+        <th>
+          Alias
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+      {% for f in friends %}
+      <tr>
+        <td>
+          {{f.alias}}
+        </td>
+        <td>
+          <a href="/user/{{f.id}}">View Profile</a> <a href="/delete/{{f.id}}">Remove as Friend</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+
+    <hr>
+    <h2>Other people not on your friend's list:</h2>
+    <table>
+      <tr>
+        <th>
+          Alias
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+      {% for r in rest %}
+      <tr>
+        <td>
+          <a href="/user/{{r.id}}">{{r.alias}}</a>
+        </td>
+        <td>
+          <form class="" action="/add/{{r.id}}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Add as Friend">
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
